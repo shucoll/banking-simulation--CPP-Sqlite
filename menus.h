@@ -34,9 +34,9 @@ int Menus:: menu2(int Qrem, int SerCus) {
     cout<<"           1. New Customer?"<<endl;
     cout<<"           For service to customer "<<SerCus<<endl;
     cout<<"                   2. To add data"<<endl;
-    cout<<"                   4. To retrive data"<<endl;
-    cout<<"           3. End Services for now(Terminate program)"<<endl;
-    cout<<"           Enter your choice 1/2/3/4"<<endl;
+    cout<<"                   3. To retrive data"<<endl;
+    cout<<"           0. End Services for now(Terminate program)"<<endl;
+    cout<<"           Enter your choice 1/2/3/0"<<endl;
     cin>>chC;
     int ipC=checkInput(chC);
     return ipC;
@@ -49,8 +49,8 @@ int Menus:: menu1(int Qrem,int SerCus) {
     cout<<"           Customer at service "<<SerCus<<endl;
     cout<<"           1. New Customer?"<<endl;
     cout<<"           2. Service to customer"<<endl;
-    cout<<"           3. End Services for now(Terminate program)"<<endl;
-    cout<<"           Enter your choice 1/2/3"<<endl;
+    cout<<"           0. End Services for now(Terminate program)"<<endl;
+    cout<<"           Enter your choice 1/2/0"<<endl;
     cin>>chM;
     int ipM=checkInput(chM);
     return ipM;

@@ -1,28 +1,10 @@
 #include<iostream>
 #include<string>
-#include<fstream>
 
 #include "LQueue.h"
 #include "menus.h"
 
 using namespace std;
-
-class userInfo {
-    public:
-    string fname;
-    string lname;
-    int age;
-    string phNo;
-    int uId;
-    string occup;
-
-};
-
-class server {
-    public:
-    void getInfo();
-    void putInfo();
-};
 
 class clsMain {
     int Qrem;
@@ -36,20 +18,6 @@ class clsMain {
     int cusMenuCalc();
 
 };
-
-void server::putInfo() {
-    userInfo ufo;
-    ofstream ouf;
-    ouf.open("uinfo.txt");
-    cout<<"Enter User first name"<<endl;
-    //ufo.getFName();
-    cin>>ufo.fname;
-    cout<<"Enter age"<<endl;
-    cin>>ufo.age;
-    ouf<<ufo.fname<<endl;
-    ouf<<ufo.age<<endl;
-
-}
 
 void clsMain:: mainMenuCalc() {
     Qrem=0;
@@ -73,36 +41,49 @@ void clsMain:: mainMenuCalc() {
             else
                 cout<<"No customer available"<<endl;
             break;
-        case 3:
+        case 0:
             break;
         default:
             cout<<"Invalid input"<<endl;
         }
 
-    }while(ipM != 3);
+    }while(ipM != 0);
 }
 
-int clsMain:: cusMenuCalc() {
+int clsMain::cusMenuCalc() {
     int ipC;
     do {
         Qrem=qe.size();
         ipC=mu.menu2(Qrem,SerCus);
         switch(ipC){
-            case 1:
+        case 1:
+            if (Qrem==0 && SerCus==0) {
+                SerCus = ++NewCus;
+                break;
+            }
             qe.enqueue(++NewCus);
             break;
         case 2:
-            cout<<"Service unavailable"<<endl;
-            break;
-        case 4:
-            cout<<"Service unavailable"<<endl;
+            if(SerCus>0){
+                SerCus=qe.dequeue();
+            }
+            else
+                cout<<"No customer at service"<<endl;
             break;
         case 3:
+            if(SerCus>0) {
+                SerCus = qe.dequeue();
+            }
+            else
+                cout<<"No customer at service"<<endl;
+            break;
+        case 0:
             break;
         default:
             cout<<"Invalid input"<<endl;
         }
-    }while(ipC != 3);
+        
+    }while(ipC != 0);
 
     return ipC;
 }
