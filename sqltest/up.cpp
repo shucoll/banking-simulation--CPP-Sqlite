@@ -29,6 +29,9 @@ static int callback(void* data, int argc, char** argv, char** azColName)
 int main() 
 { 
     info ifo;
+    int id;
+    cout<<"Enter id to update"<<endl;
+    cin>>id;
 
     cout<<"Enter name"<<endl;
     cin>>ifo.name;
@@ -47,10 +50,8 @@ int main()
         cout<< "Couldnt Open database."<<endl;
     }
     else {
-        //string query = "SELECT * FROM PERSON;";     
     
-    
-        string sql = "INSERT INTO PERSON(NAME,SURNAME,AGE,ADDRESS) VALUES (?,?,?,?);";
+        string sql = "UPDATE PERSON SET NAME = ?, SURNAME = ?, AGE = ?, ADDRESS = ? WHERE ID = ?;";
 
         exit=sqlite3_prepare(DB, sql.c_str(), -1, &st, NULL);
         if (exit == SQLITE_OK) {
@@ -58,9 +59,10 @@ int main()
             sqlite3_bind_text(st, 2, ifo.surname.c_str(), ifo.surname.length(), SQLITE_TRANSIENT);
             sqlite3_bind_int(st, 3, ifo.age);
             sqlite3_bind_text(st,4, ifo.address.c_str(), ifo.address.length(), SQLITE_TRANSIENT);
+            sqlite3_bind_int(st, 5, id);
             sqlite3_step(st);
 
-            cout << "Records created Successfully!" <<endl; 
+            cout << "Records updated Successfully!" <<endl; 
 
             int last_id = sqlite3_last_insert_rowid(DB);
             printf("The last Id of the inserted row is %d\n", last_id);

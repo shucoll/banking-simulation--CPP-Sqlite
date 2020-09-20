@@ -7,16 +7,22 @@ int main() {
 
     cout<<"Before running"<<endl;
 
-    for (int i=0;i<2;i++) {
+    /*
+    for (int i=0;i<1;i++) {
         system("g++ in.cpp -l sqlite3");
         system("./a.out ");
     }
+    */
 
-    for (int i=0;i<3;i++) {
+    for (int i=0;i<1;i++) {
+        system("g++ up.cpp -l sqlite3");
+        system("./a.out ");
+    }
+
+    for (int i=0;i<1;i++) {
         system("g++ se.cpp -l sqlite3");
         system("./a.out ");
     }
-    
 
     cout<<"After running"<<endl;
     return 0; 
