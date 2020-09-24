@@ -3,6 +3,7 @@
 
 #include "LQueue.h"
 #include "menus.h"
+#include "bankModel.h"
 
 using namespace std;
 
@@ -12,6 +13,7 @@ class clsMain {
     int NewCus;
     Queue qe;
     Menus mu;
+    bank bk;
 
     public:
     void mainMenuCalc();
@@ -65,7 +67,22 @@ int clsMain::cusMenuCalc() {
             break;
         case 2:
             if(SerCus>0){
+                long acno,iniBal;
+                char nm[100], acctype[50];
                 SerCus=qe.dequeue();
+                cout<<endl<<"Enter Details: "<<endl;
+                cout<<"Enter Accout No: "; cin>>acno;
+                cout<<"Enter name: "; cin>>nm;
+                cout<<"Enter Account type: "; cin>>acctype;
+                cout<<"Enter initial deposit: "; cin>>iniBal;
+                if (iniBal<5000){
+                  cout<<"Account can't be open "<<endl;
+                  cout<<"Initial balance to open an account is 5000 "<<endl;
+                }
+                else{
+                  cout<<"Account opened with balance "<<iniBal<<endl;
+                  bk.setdata(acno,iniBal,nm,acctype);
+                }           
             }
             else
                 cout<<"No customer at service"<<endl;
@@ -73,6 +90,7 @@ int clsMain::cusMenuCalc() {
         case 3:
             if(SerCus>0) {
                 SerCus = qe.dequeue();
+                bk.display();
             }
             else
                 cout<<"No customer at service"<<endl;
