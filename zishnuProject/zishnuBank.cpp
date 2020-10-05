@@ -127,7 +127,7 @@ int main()
         int acno,custID;
         char nm[100], acctype[100];
         float bal;
-        bank b[2];
+        bank b[10];
         do{
             cout<<"\n 1. Do you want to create an account ? ";
             cout<<"\n 2. Do you want to check your customer id ? ";

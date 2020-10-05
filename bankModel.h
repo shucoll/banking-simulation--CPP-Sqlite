@@ -37,8 +37,8 @@ void bank::display() {
         return;
     }
     cout<<endl<<"--Customer Info--"<<endl;
-    cout<<"Enter Accout No: "; cout<<acno<<endl;
-    cout<<"Enter name: "; cout<<nm<<endl;
-    cout<<"Enter Account type: "; cout<<acctype<<endl;
-    cout<<"Enter initial deposit: "; cout<<bal<<endl;
+    cout<<"Accout No: "; cout<<acno<<endl;
+    cout<<"Name: "; cout<<nm<<endl;
+    cout<<"Account type: "; cout<<acctype<<endl;
+    cout<<"Initial deposit: "; cout<<bal<<endl;
 }

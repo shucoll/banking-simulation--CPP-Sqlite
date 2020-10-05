@@ -2,8 +2,8 @@
 #include<string>
 
 #include "LQueue.h"
-#include "menus.h"
-#include "bankModel.h"
+#include "Menus.h"
+#include "BankModel.h"
 
 using namespace std;
 
