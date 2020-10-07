@@ -13,7 +13,7 @@ class clsMain {
     int NewCus;
     Queue qe;
     Menus mu;
-    bank bk;
+    Bank bk;
 
     public:
     void mainMenuCalc();
@@ -68,11 +68,12 @@ int clsMain::cusMenuCalc() {
         case 2:
             if(SerCus>0){
                 long acno,iniBal;
-                char nm[100], acctype[50];
+                string fnm, lnm, acctype;
                 SerCus=qe.dequeue();
                 cout<<endl<<"Enter Details: "<<endl;
                 cout<<"Enter Accout No: "; cin>>acno;
-                cout<<"Enter name: "; cin>>nm;
+                cout<<"Enter first name: "; cin>>fnm;
+                cout<<"Enter last name: "; cin>>lnm;
                 cout<<"Enter Account type: "; cin>>acctype;
                 cout<<"Enter initial deposit: "; cin>>iniBal;
                 if (iniBal<5000){
@@ -81,8 +82,10 @@ int clsMain::cusMenuCalc() {
                 }
                 else{
                   cout<<"Account opened with balance "<<iniBal<<endl;
-                  bk.setdata(acno,iniBal,nm,acctype);
-                }           
+                  bk.setdata(acno,iniBal,fnm,lnm,acctype);
+                  bk.display();
+                  bk.saveNewData();
+                }   
             }
             else
                 cout<<"No customer at service"<<endl;
@@ -90,7 +93,7 @@ int clsMain::cusMenuCalc() {
         case 3:
             if(SerCus>0) {
                 SerCus = qe.dequeue();
-                bk.display();
+                bk.retriveData();
             }
             else
                 cout<<"No customer at service"<<endl;

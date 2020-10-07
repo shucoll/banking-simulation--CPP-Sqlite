@@ -31,7 +31,7 @@ int main()
     info ifo;
 
     cout<<"Enter name"<<endl;
-    cin>>ifo.name;
+    getline(cin,ifo.name);
     cout<<"Enter surname"<<endl;
     cin>>ifo.surname;
     cout<<"Enter age"<<endl;
@@ -39,6 +39,7 @@ int main()
     cout<<"Enter address"<<endl;
     cin>>ifo.address;
 
+    cout<<"name is"<<ifo.name<<endl;
     sqlite3* DB;
     sqlite3_stmt* st;
     

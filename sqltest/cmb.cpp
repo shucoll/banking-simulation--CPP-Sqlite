@@ -29,15 +29,17 @@ static int callback(void* data, int argc, char** argv, char** azColName)
 void insert() {
     info ifo;
 
-    cout<<"Enter name"<<endl;
-    cin>>ifo.name;
     cout<<"Enter surname"<<endl;
     cin>>ifo.surname;
     cout<<"Enter age"<<endl;
     cin>>ifo.age;
     cout<<"Enter address"<<endl;
     cin>>ifo.address;
+    cout<<"Enter name"<<endl;
+    cin>>ifo.name;
+    
 
+    cout<<"name is"<<ifo.name<<endl;
     sqlite3* DB;
     sqlite3_stmt* st;
     
