@@ -16,6 +16,7 @@ class Queue {
 };
 
 void Queue::enqueue(int x) {
+
     Node *t = new Node; 
     if(t==NULL) cout<<"Queue full"<<endl;
     else {
@@ -31,10 +32,11 @@ void Queue::enqueue(int x) {
 }
 
 int Queue::dequeue() {
+
     int x=0;
     Node *t;
 
-    if(front==NULL) cout<<"Queue Empty"<<endl;
+    if(front==NULL) {}//cout<<"Queue Empty"<<endl;
     else {
         x=front->data;
         t=front;
@@ -45,6 +47,7 @@ int Queue::dequeue() {
 }
 
 int Queue::size() {
+    
     Node *p=front;
     int len=0;
     while(p) {

@@ -6,14 +6,18 @@ using namespace std;
 
 
 class Menus {
+    
     public:
     int checkInput(string chM);
     int menu1(int,int);
     int menu2(int,int);
+    int menu3(int);
 
 };
 
+
 int Menus::checkInput(string chM) {
+
     for (int i = 0; i < chM.length(); i++) {
         if (isdigit(chM[i]) == false) 
             return -1;
@@ -26,9 +30,27 @@ int Menus::checkInput(string chM) {
 }
 
 
+int Menus:: menu1(int Qrem,int SerCus) {
+
+    string chM;
+    cout<<endl<<"           *----Main Menu----*"<<endl;
+    cout<<"           Total customer remaining "<<Qrem<<endl;
+    cout<<"           Customer at service "<<SerCus<<endl;
+    cout<<"           1. Add new customer"<<endl;
+    cout<<"           2. Service to customer"<<endl;
+    cout<<"           0. End Services (Terminate program)"<<endl;
+    cout<<"           Enter your choice 1/2/0"<<endl;
+    cin>>chM;
+    int ipM=checkInput(chM);
+    return ipM;
+}
+
+
+
 int Menus:: menu2(int Qrem, int SerCus) {
+
     string chC;
-    cout<<"           *----Customer Service Menu----*"<<endl;
+    cout<<endl<<"           *----Customer Service Menu----*"<<endl;
     cout<<"           Total customer remaining "<<Qrem<<endl;
     cout<<"           Customer at service "<<SerCus<<endl;
     cout<<"           1. Add new customer"<<endl;
@@ -42,17 +64,21 @@ int Menus:: menu2(int Qrem, int SerCus) {
     return ipC;
 }
 
-int Menus:: menu1(int Qrem,int SerCus) {
-    string chM;
-    cout<<"           *----Main Menu----*"<<endl;
-    cout<<"           Total customer remaining "<<Qrem<<endl;
-    cout<<"           Customer at service "<<SerCus<<endl;
-    cout<<"           1. Add new customer"<<endl;
-    cout<<"           2. Service to customer"<<endl;
+
+int Menus:: menu3(int SerCus) {
+
+    string chU;
+    cout<<"           *----Account Check Menu----*"<<endl;
+    cout<<"           1. View Data"<<endl;
+    cout<<"           2. Withdraw"<<endl;
+    cout<<"           3. Deposit"<<endl;
+    cout<<"           4. Finish service for customer "<<SerCus<<endl;
     cout<<"           0. End Services (Terminate program)"<<endl;
-    cout<<"           Enter your choice 1/2/0"<<endl;
-    cin>>chM;
-    int ipM=checkInput(chM);
-    return ipM;
+    cout<<"           Enter your choice 1/2/3/0"<<endl;
+    cin>>chU;
+    int ipC=checkInput(chU);
+    return ipC;
 }
+
+
 

@@ -6,22 +6,29 @@
 using namespace std;
 
 class Bank{
-    long acno,bal;
+
+    int acno,bal;
     string fnm,lnm, acctype;
     int custID;
-public:
-    Bank() {
-        acno = 0;
-        bal = 0;
-    }
-    void setdata(long,float,string, string,string); //To set the data given by user
-    void saveNewData(); //To save the data to a database
-    void retriveData(); //To get the data from database
-    void updateData();  //To update data from database (wthdraw/deposit amount)
-    int  openIDCheck(); //To check if a passed account number to checkout exists
-    void deposit();     //To revieve diposit amount 
-    void withdraw();    //To recieve withdraw amount
-    void display();     //To display acount info
+
+    protected:
+        Bank() {
+            acno = 0;
+            bal = 0;
+        }
+        void setdata(long,float,string, string,string); //To set the data given by user
+        void setBal(int);  //To set new balance after withdrawing
+        void setID(int);   //To set the id to search for particular account 
+        void setAcno(int);
+
+        int getBal();
+
+
+        void saveNewData(); //To save the data to a database
+        bool retriveData(); //To get the data from database
+        void updateData(int);  //To update data from database (wthdraw)
+        bool openAccNoCheck();  //To check if a passed account number to checkout exists
+        void display();        //To display acount info
 };
 
 
@@ -34,6 +41,22 @@ void Bank::setdata(long accno,float baln,string fnme,string lnme, string accntyp
     acctype = accntype;
 }
 
+void Bank::setBal(int newBal) {
+    bal = newBal;
+}
+
+void Bank::setID(int ID) {
+    custID = ID;
+}
+
+void Bank::setAcno(int accno) {
+    acno = accno;
+}
+
+int Bank::getBal() {
+
+    return bal;
+}
 
 void Bank::saveNewData() {
     sqlite3* DB;
@@ -58,7 +81,7 @@ void Bank::saveNewData() {
             sqlite3_bind_int(st, 5, bal);
             sqlite3_step(st);
 
-            cout << "Records created Successfully!" <<endl; 
+            cout << "Record created Successfully!" <<endl; 
 
             int last_id = sqlite3_last_insert_rowid(DB);
             printf("The ID of the last inserted customer data is %d\n", last_id);
@@ -73,11 +96,9 @@ void Bank::saveNewData() {
     }
 }
 
-void Bank::retriveData() {
-    int id;
-	cout<<"Enter ID"<<endl;
-	cin>>id;
+bool Bank::retriveData() {
 
+    bool check;
 	sqlite3* DB; 
 	sqlite3_stmt* st;
 	int exit = 0; 
@@ -89,7 +110,7 @@ void Bank::retriveData() {
 	exit=sqlite3_prepare_v2(DB, sql.c_str(), -1, &st, 0);
 
 	if (exit == SQLITE_OK) {
-        sqlite3_bind_int(st, 1, id);
+        sqlite3_bind_int(st, 1, custID);
     } else {
         
         fprintf(stderr, "Failed to execute statement: %s\n", sqlite3_errmsg(DB));
@@ -106,12 +127,102 @@ void Bank::retriveData() {
 		printf("Last Name:  %s\n", sqlite3_column_text(st, 3));
 		printf("Account Type:  %s\n", sqlite3_column_text(st, 4));
 		printf("Balance:  %d\n\n", sqlite3_column_int(st, 5));
+    
+
+        //custID = sqlite3_column_int(st, 0);
+        acno = sqlite3_column_int(st, 1);
+        bal = sqlite3_column_int(st, 5);
+
+        check = true;
 
 	}
-	else cout<<"Record not found"<<endl;
-	
+	else  {
+        cout<<"Record not found"<<endl;
+        check = false;
+    }
 	sqlite3_finalize(st);
 	sqlite3_close(DB);
+
+    return check;
+}
+
+
+void Bank::updateData(int ch) {
+
+    sqlite3* DB;
+    sqlite3_stmt* st;
+    
+    int exit = sqlite3_open("Bank.db", &DB); 
+    if ( exit != SQLITE_OK) {
+        cout<< "Couldnt Open database."<<endl;
+    }
+    else {
+    
+        string sql = "UPDATE PERSON SET Balance = ? WHERE ID = ?;";
+
+        exit=sqlite3_prepare(DB, sql.c_str(), -1, &st, NULL);
+        if (exit == SQLITE_OK) {
+
+            sqlite3_bind_int(st, 1, bal);
+            sqlite3_bind_int(st, 2, custID);
+            sqlite3_step(st);
+
+            if(ch==0) cout<< "Withdraw Successfully!" <<endl;
+            else cout<<"Deposit successful!"<<endl;
+
+            cout<< "New balance is "<< bal <<endl;
+
+        }
+        else {
+            
+            fprintf(stderr, "Failed to execute statement: %s\n", sqlite3_errmsg(DB));
+        }
+
+        sqlite3_finalize(st);
+        sqlite3_close(DB); 
+    }
+
+}
+
+
+bool Bank::openAccNoCheck() {
+
+    bool check;
+	sqlite3* DB; 
+	sqlite3_stmt* st;
+	int exit = 0; 
+	exit = sqlite3_open("Bank.db", &DB); 
+	string data("CALLBACK FUNCTION"); 
+
+	string sql= "SELECT * FROM PERSON WHERE AccNumber = ?;"; 
+
+	exit=sqlite3_prepare_v2(DB, sql.c_str(), -1, &st, 0);
+
+	if (exit == SQLITE_OK) {
+        sqlite3_bind_int(st, 1, acno);
+    } else {
+        
+        fprintf(stderr, "Failed to execute statement: %s\n", sqlite3_errmsg(DB));
+    }
+	
+	
+	int step = sqlite3_step(st);
+    
+    if (step == SQLITE_ROW) {
+
+        cout<<"Account number already exists, enter unique account number"<<endl;
+
+        check = false;
+
+	}
+	else  {
+        //cout<<"Record not found"<<endl;
+        check = true;
+    }
+	sqlite3_finalize(st);
+	sqlite3_close(DB);
+
+    return check;
 }
 
 
@@ -121,6 +232,7 @@ void Bank::display() {
         cout<<"No data to display"<<endl;
         return;
     }
+
     cout<<endl<<"--Customer Info--"<<endl;
     cout<<"Accout No: "; cout<<acno<<endl;
     cout<<"First Name: "; cout<<fnm<<endl;
