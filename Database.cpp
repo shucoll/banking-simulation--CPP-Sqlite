@@ -14,5 +14,5 @@ int main()
     else 
         std::cout << "Opened Database Successfully!" << std::endl; 
     sqlite3_close(DB); 
-    return 0; 
+    return 0;
 } 
