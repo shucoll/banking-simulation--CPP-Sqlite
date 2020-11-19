@@ -66,8 +66,7 @@ void Bank::saveNewData() {
     if ( exit != SQLITE_OK) {
         cout<< "Couldnt Open database."<<endl;
     }
-    else {
-        //string query = "SELECT * FROM PERSON;";     
+    else {   
     
     
         string sql = "INSERT INTO PERSON(AccNumber,FNAME,LNAME,AccType,Balance) VALUES (?,?,?,?,?);";
@@ -103,7 +102,6 @@ bool Bank::retriveData() {
 	sqlite3_stmt* st;
 	int exit = 0; 
 	exit = sqlite3_open("Bank.db", &DB); 
-	//string data("CALLBACK FUNCTION"); 
 
 	string sql= "SELECT * FROM PERSON WHERE ID = ?;"; 
 
@@ -128,8 +126,6 @@ bool Bank::retriveData() {
 		printf("Account Type:  %s\n", sqlite3_column_text(st, 4));
 		printf("Balance:  %d\n\n", sqlite3_column_int(st, 5));
     
-
-        //custID = sqlite3_column_int(st, 0);
         acno = sqlite3_column_int(st, 1);
         bal = sqlite3_column_int(st, 5);
 
@@ -192,7 +188,6 @@ bool Bank::openAccNoCheck() {
 	sqlite3_stmt* st;
 	int exit = 0; 
 	exit = sqlite3_open("Bank.db", &DB); 
-	//string data("CALLBACK FUNCTION"); 
 
 	string sql= "SELECT * FROM PERSON WHERE AccNumber = ?;"; 
 
@@ -216,7 +211,6 @@ bool Bank::openAccNoCheck() {
 
 	}
 	else  {
-        //cout<<"Record not found"<<endl;
         check = true;
     }
 	sqlite3_finalize(st);

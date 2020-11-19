@@ -2,8 +2,8 @@
 #include<string>
 
 #include "LQueue.h"
-#include "Menus.h"
-#include "BankModel.h"
+#include "menus.h"
+#include "bankModel.h"
 
 using namespace std;
 
@@ -16,9 +16,9 @@ class ClsMain:public Menus,private Bank {
 
     public:
     ClsMain();
-    void mainMenuCalc();
+    int mainMenuCalc();
     int cusMenuCalc();
-
+    void bankMenuCalc(int,int&,int&);
 };
 
 
@@ -28,8 +28,54 @@ ClsMain::ClsMain() {
     NewCus=0; 
 }
 
+void ClsMain::bankMenuCalc(int currAmt,int &ipR, int &ipC) {
+    do {
+        ipR = menu3(SerCus);
 
-void ClsMain:: mainMenuCalc() {
+        switch(ipR) {
+
+            case 1:
+                retriveData();
+                currAmt = getBal();
+            break;
+
+            case 2:
+                long wdAmt;
+                cout<<"Enter the amount to withdraw: "; cin>>wdAmt;
+
+                if(currAmt - wdAmt < 5000) cout<<"Can't withdraw, balance will fall below 5000"<<endl;
+                else {
+                    // withdraw and update database
+                    setBal(currAmt - wdAmt);
+                    updateData(0); 
+                    currAmt = getBal();
+                }
+
+            break;
+
+            case 3:
+                long depAmt;
+                cout<<"Enter the amount to deposit: "; cin>>depAmt;
+                // deposit and update database
+                setBal(currAmt + depAmt);
+                updateData(1); 
+                currAmt = getBal();
+            break;
+
+            case 4:
+            break;
+
+            case 0:
+                ipC = 0;
+            break;
+
+            default:
+            cout<<"Invalid input"<<endl;
+        }
+    }while(ipR != 0 && ipR != 4);
+}
+
+int ClsMain:: mainMenuCalc() {
     int ipM;
     
     do{
@@ -43,8 +89,7 @@ void ClsMain:: mainMenuCalc() {
         case 2:
             if(NewCus>0){
                 SerCus=qe.dequeue();
-                //ipM=cusMenuCalc();
-                return;
+                return 1;
             }
             else
                 cout<<"No customer available"<<endl;
@@ -56,6 +101,8 @@ void ClsMain:: mainMenuCalc() {
         }
 
     }while(ipM != 0);
+
+    return 0;
 }
 
 int ClsMain::cusMenuCalc() {
@@ -112,56 +159,13 @@ int ClsMain::cusMenuCalc() {
             if(SerCus>0) {
                 int id;
                 cout<<"Enter the id of the customer: ";cin>>id;
-                SerCus = qe.dequeue();
                 setID(id);
                 bool check = retriveData();
                 long currAmt = getBal();
-                if (check) {
-                    do {
-                        ipR = menu3(SerCus);
+                if (check) 
+                    bankMenuCalc(currAmt,ipR,ipC);
 
-                        switch(ipR) {
-
-                            case 1:
-                                retriveData();
-                                currAmt = getBal();
-                            break;
-
-                            case 2:
-                                long wdAmt;
-                                cout<<"Enter the amount to withdraw: "; cin>>wdAmt;
-
-                                if(currAmt - wdAmt < 5000) cout<<"Can't withdraw, balance will fall below 5000"<<endl;
-                                else {
-                                    // withdraw and update database
-                                    setBal(currAmt - wdAmt);
-                                    updateData(0); 
-                                    currAmt = getBal();
-                                }
-
-                            break;
-
-                            case 3:
-                                long depAmt;
-                                cout<<"Enter the amount to deposit: "; cin>>depAmt;
-                                // deposit and update database
-                                setBal(currAmt + depAmt);
-                                updateData(1); 
-                                currAmt = getBal();
-                            break;
-
-                            case 4:
-                            break;
-
-                            case 0:
-                                ipC = 0;
-                            break;
-
-                            default:
-                            cout<<"Invalid input"<<endl;
-                        }
-                    }while(ipR != 0 && ipR != 4);
-                }
+                SerCus = qe.dequeue();
                 
             }
             else
@@ -184,7 +188,8 @@ int ClsMain::cusMenuCalc() {
 
 int main() {
     ClsMain m;
-    m.mainMenuCalc();
+    int ipM = m.mainMenuCalc();
+    if(ipM == 1)
     m.cusMenuCalc();
 
     return 0;
