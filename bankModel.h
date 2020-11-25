@@ -59,6 +59,7 @@ int Bank::getBal() {
 }
 
 void Bank::saveNewData() {
+    
     sqlite3* DB;
     sqlite3_stmt* st;
     

@@ -256,30 +256,24 @@ int ClsMain:: mainMenuCalc() {
         ipM = menu1(Qrem,SerCus);
 
         switch (ipM){
-        case 1:
-            SerCus = ++NewCus;
-            begin = now = chrono::high_resolution_clock::now();
-            avrDur.push_back(now-begin);
+            case 1:
+
+                SerCus = ++NewCus;
+                begin = now = chrono::high_resolution_clock::now();
+                avrDur.push_back(now-begin);
+                
+            return ipM;
             
-            return 1;
-            //break;
-        // case 2:
-        //     if(NewCus>0){
-        //         SerCus=qe.dequeue();
-        //         return 1;
-        //     }
-        //     else
-        //         cout<<"No customer available"<<endl;
-        //     break;
-        case 0:
+            case 0:
             break;
-        default:
+            
+            default:
             cout<<"Invalid input"<<endl;
         }
 
     }while(ipM != 0);
 
-    return 0;
+    return ipM;
 }
 
 int ClsMain::cusMenuCalc() {
@@ -290,6 +284,7 @@ int ClsMain::cusMenuCalc() {
         ipC = menu2(Qrem,SerCus);
         switch(ipC){
             case 1:
+
                 if (Qrem==0 && SerCus==0) {
                     SerCus = ++NewCus;
                     now = chrono::high_resolution_clock::now();
@@ -302,6 +297,7 @@ int ClsMain::cusMenuCalc() {
             break;
 
             case 2:
+
                 if(SerCus>0){
                     long acno,iniBal;
                     bool check;
@@ -339,6 +335,7 @@ int ClsMain::cusMenuCalc() {
             break;
 
             case 3:
+            
                 if(SerCus>0) {
                     int id;
                     cout<<"Enter the id of the customer: ";cin>>id;
@@ -358,7 +355,7 @@ int ClsMain::cusMenuCalc() {
             break;
 
             case 4:
-                return ipC;
+            return ipC;
 
             case 0:
             break;
